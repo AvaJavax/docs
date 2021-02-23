@@ -1,0 +1,76 @@
+一、发起MR/PR前，使用变基(rebase)而不是合并(merge)同步远端修改和解决可能的冲突。
+这个实践主要基于以下事实和观点：
+1. 一个直观的原则，我们总是希望 MR 中要合入主干的修改，是体现在远端主干的最新 commit 节点后面的；
+2. merge 提交历史不是线性的，如果不是 fast-forward 合并，会新生成一个commit，其内容就是远端主干和你本地分支的差异，
+开发者无法从这个 commit 中重建出结构化的差异信息，并且，既然这份差异远端 master 已经持有，又何必再放到请求合入的 commit 列表中？
+3. rebase 可以在指定分支（远端主干）上重演你的 commit，相当于自动 cherry-pick，提交历史是线性的；
+4. 变基/交互式变基的同时，你可以顺便好好组织一下这次改动的 commit。
+接下来简述操作步骤，基于 Git Bash。
+在操作之前，确保要上库的改动都已经 commit 了，假设当前版本的主干是 master，则可以使用 rebase 操作：
+git fetch origin
+git rebase origin/master
+也可以使用更加方便的 pull --rebase  指令:
+git pull --rebase origin master
+这样，你要提交的多个 commit 就按顺序重演到了 master 的最新 commit 节点后面。
+这步操作可能存在冲突，推荐使用 ide 的 git 插件或者 TortoiseGit 等工具的Mergetool 解决冲突，然后执行
+git add 冲突文件
+git rebase --continue
+至此，如果你的 commit 已经组织得很好了，就可以 push 到远端了，如果 commit 比较杂乱，参考下文的方法重新组织。
+参考：
+1. https://git-scm.com/book/en/v2/Git-Branching-Rebasing
+2. http://marklodato.github.io/visual-git-guide/index-zh-cn.html#rebase
+3. https://segmentfault.com/q/1010000007704573/
+
+二、MR 前规范地组织 commit，共同维护整洁的上库记录
+如果你的 commit 组织得并不是很好，比如，超过了 5 个，甚至 10 多个 commit 在里面，commit 的分布并不能直观描述修改的内容，那就需要重新组织一下了。
+重新组织commit，可以在上文说的 rebase 操作后立即进行，也可以在 rebase 时使用 -i 选项交互式变基。
+rebase 操作后立即进行的操作方式，这种方式可以完全地改写 commit 历史：
+git reflog
+376e7bbc45 (HEAD -> 20anew_w00416748_dfx_tools_new_version, 
+origin/20anew_w00416748_dfx_tools_new_version) HEAD@{0}: commit (amend): L2 DFX Tools v0.7.1版本发布
+f10bf529b8 HEAD@{1}: commit (amend): L2 DFX Tools v0.7.1版本发布
+9c3756d017 HEAD@{2}: commit (amend): L2 DFX Tools v0.7.1版本发布
+6ea6b41235 HEAD@{3}: commit (amend): L2 DFX Tools v0.7.1版本发布
+cad9d51cb6 HEAD@{4}: rebase finished: returning to refs/heads/20anew_w00416748_dfx_tools_new_version
+cad9d51cb6 HEAD@{5}: pull --rebase origin master: L2 DFX Tools v0.7.1版本发布
+d102a4087c HEAD@{6}: pull --rebase origin master: L2 DFX Tools v0.7.1版本发布-预编译
+655e6907db (origin/master, origin/HEAD) HEAD@{7}: pull --rebase origin master: checkout 655e6907db2b602a28a93f334f474fc4725cd6e6
+在 reflog 的输出中找到 rebase 开始的节点，比如上图的 HEAD@{7}，然后
+git reset --soft HEAD@{7}
+至此，你本次需要提交的所有改动，又返回 Stage(Index) 内了，你可以把他们 checkout出来，然后根据情况 git add, git commit，生成新的 commit，然后 push 到远端，发起MR。
+另外，还可以使用 rebase -i 交互式变基的操作方式：
+git rebase -i HEAD~3
+以上指令可以重新组织最近的 3 次 commit 记录，过程中会列出 commit 节点，对于需要保留的节点，使用 Pick，对于需要合并的节点，使用 Squash。
+关于 rebase -i 的细节，建议进一步阅读参考文章。
+参考：
+1. https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+
+三、若新 commit 和上一次 commit 相关性很强，使用 --amend
+--amend 选项可以将新的修改放进上一次 commit 内，操作时，还可以对 commit 消息进行附加的描述修改。
+git commit --amend
+
+四、使用 ssh 公钥鉴权，方便又安全
+关于 ssh 公钥鉴权的原理，可以参考：http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html。
+简而言之，就是生成非对称的一对密钥：公钥+私钥，公钥配置到远端git 服务器，鉴权时服务器会给客户端发送一个随机字符串，客户端用私钥加密之后回传，服务器再用公钥解密，如果字符串匹配，则鉴权成功。
+openssh 是 SSH 协议的事实标准实现，推荐使用 openssh 生成密钥对，生成方式，启动Git Bash，执行 ssh-keygen，直接连续敲几次回车即可。
+ssh-keygen
+生成后的密钥对默认保存在用户目录的 .ssh 路径下，在 Git Bash 下使用 cat 打印出来
+cat ~/.ssh/id_ras.pub
+将公钥文本拷贝配置到Git托管服务平台，之后 clone 仓库时，使用 git/ssh 协议而不是http(s) 协议，或者将已经克隆到本地的仓库的 remote 改成 git/ssh 协议的 URL。
+另外，TortoiseGit 比较奇葩，默认使用 TortoiseGitPlink 作为 SSH 客户端，不直接支持openssh 密钥格式，而是要使用 PuttyGen 工具生成密钥对，
+或者转换已经生成的openssh 私钥为 *.ppk 格式，然后再在 Pageant 中添加 ppk 私钥，这显然太麻烦了，好在TortoiseGit 支持修改 ssh client，直接修改为 Git Bash 自带的 openssh 即可。
+参考：
+1. https://help.github.com/en/enterprise/2.15/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+2. https://help.cloudforge.com/hc/en-us/articles/215242963-TortoiseGIT-Create-and-upload-your-public-key-to-CloudForge
+
+五、误操作把提交记录搞乱了，别担心，还有 git reflog
+如果一顿误操作，发现提交记录完全给搞乱了，你可以确定某个曾经存在的提交历史记录节点是OK的，但是现在却不在历史提交记录列表里面了，这个时候，可以到 git reflog中，找到这个“曾经存在的历史节点”。
+Reference logs, or "reflogs", record when the tips of branches and other references were updated in the local repository.
+
+六、工作目录很多改动，但是只想提交一部分，试试 git add -p
+git 文档页，关于 git add  的 -p  / --patch  选项的说明：
+-p, --patch
+Interactively choose hunks of patch between the index and the work tree and add them to the index.
+This gives the user a chance to review the difference before adding modified contents to the index.
+This effectively runs add --interactive , but bypasses the initial command menu and directly jumps to the patch subcommand.
+See “Interactive mode” for details.
