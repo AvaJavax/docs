@@ -1,0 +1,14 @@
+打开gitBash
+$ git config --global user.name "yourname"
+$ git config --global user.email "youremail"
+yourname：用户名是你的域账号名，如adam
+youremail：邮箱为你的外部邮箱，如adam@gmail.com
+可以使用此命令检查配置是否正确：$ git config --list
+使用你的邮箱生成SSH Key：$ ssh-keygen -t rsa -C "youremail@gmail.com"
+回车后会依次询问你 ssh_key 文件保存的位置以及密码，这里均使用默认即可。直接一路按回车。
+该命令会在用户主目录（即为/C/Users/yourname/）里生产.ssh文件夹，里面有 id_rsa和id_rad.pub 两个文件，这两个文件就是 SSH Key 的秘钥对。
+其中，id_rad是私钥，不能泄露，id_rsa.pub是公钥，可以告诉别人。
+codeRepo：https://code.adam.com/profile/keys，添加公钥。
+--------------------------------------------------------------------------------------------------------------------------------------------
+nohup java -Dserver.port=81 -Xms2048m -Xmx2048m -Xmn1024m -jar xxx.jar >/usr/xxxProject/logs/xxx.txt &
+--------------------------------------------------------------------------------------------------------------------------------------------
