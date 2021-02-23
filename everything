@@ -12,3 +12,102 @@ codeRepo：https://code.adam.com/profile/keys，添加公钥。
 --------------------------------------------------------------------------------------------------------------------------------------------
 nohup java -Dserver.port=81 -Xms2048m -Xmx2048m -Xmn1024m -jar xxx.jar >/usr/xxxProject/logs/xxx.txt &
 --------------------------------------------------------------------------------------------------------------------------------------------
+swagger：https://blog.csdn.net/dejunyang/article/details/89527348
+https://www.cnblogs.com/tangsong41/p/11197782.html
+https://www.cnblogs.com/lshan/p/9571265.html
+
+实体字段校验：https://blog.csdn.net/weixin_43244993/article/details/95071506
+参数校验：https://www.cnblogs.com/mooba/p/11276062.html
+https://www.cnblogs.com/cjsblog/p/8946768.html
+
+git：https://blog.csdn.net/weixin_41883384/article/details/80538690
+
+cron：https://www.cnblogs.com/javahr/p/8318728.html
+
+IDEA快捷键：https://blog.csdn.net/u014259503/article/details/86215043
+
+Optional：https://blog.csdn.net/nullbull/article/details/81234250
+https://blog.csdn.net/Alexshi5/article/details/95769782
+https://www.runoob.com/java/java8-optional-class.html
+
+List、Map的深度克隆：https://blog.csdn.net/azhegps/article/details/53189811
+Object.clone()：https://www.cnblogs.com/nickhan/p/8569329.html
+
+SpringData JPA：https://www.ibm.com/developerworks/cn/opensource/os-cn-spring-jpa
+
+MySQL视图：https://www.cnblogs.com/cshaptx4869/p/10481749.html
+https://www.cnblogs.com/geaozhang/p/6792369.html
+
+MySQL各数据类型：https://www.cnblogs.com/little-fly/p/11183405.html
+
+IDEA Merge：https://blog.csdn.net/lvmengzou/article/details/90209310
+https://www.cnblogs.com/fengli9998/p/9291302.html
+https://www.cnblogs.com/bojuetech/p/7015911.html
+
+base64：https://www.jianshu.com/p/12fea9987c2d
+
+truncate tablename;会清空表的所有记录，并且使自增的id重置。
+INSERT INTO t_topic_content(content,topicId) SELECT content,id FROM t_topic;
+INSERT INTO t_topic_content(content,topicId) SELECT REPLACE(content, 'aa', 'bb'),id FROM t_topic;
+
+cors：https://www.cnblogs.com/zhangyangdev/p/11488807.html
+
+强制索引：https://www.jianshu.com/p/d3347bd262cc
+
+技术：https://www.oschina.net/question/3851485_2279289
+https://blog.csdn.net/weixin_41673139/article/details/100531176
+
+Spring事务：https://www.cnblogs.com/mseddl/p/11577846.html
+
+go：https://blog.csdn.net/li_101357/article/details/80205005
+https://www.jianshu.com/p/3b418ec7dca9
+
+git rm -r --cached .
+git rebase：https://www.jianshu.com/p/f7ed3dd0d2d8
+
+dfs和bfs：https://www.cnblogs.com/wzl19981116/p/9397203.html
+https://blog.csdn.net/qq_43857314/article/details/88077221
+https://www.cnblogs.com/kungfupanda/p/11248014.html
+
+ffmpeg：http://3ms.huawei.com/km/blogs/details/1430033
+https://fooyou.github.io/document/2015/12/03/modify-id3-tags-using-ffmpeg.html
+
+java方法返回多个值：https://blog.csdn.net/u013047584/article/details/80462379
+https://www.cnblogs.com/zj0208/p/6207077.html
+https://www.cnblogs.com/beiyeren/p/3835548.html
+
+sql_mode=only_full_group_by：https://blog.csdn.net/qq_17555933/article/details/92793510
+https://www.cnblogs.com/kenshinobiy/p/9580701.html
+select @@global.sql_mode;
+set @@global.sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+set sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+
+多线程：https://blog.csdn.net/weixin_43168010/article/details/97613895
+https://blog.csdn.net/pozmckaoddb/article/details/51478017
+https://blog.csdn.net/w605283073/article/details/89930497
+https://www.cnblogs.com/Lee_xy_z/p/10470181.html
+
+https://github.com/rubyhan1314/Golang-100-Days
+https://github.com/jackfrued/Python-100-Days
+https://github.com/JosephZhu1983/java-common-mistakes
+https://github.com/heibaiying/BigData-Notes
+
+SELECT FROM_UNIXTIME(1594087192);
+
+lambda：https://blog.csdn.net/qq_35847311/article/details/85041217
+
+Linux内核进程：https://www.cnblogs.com/gmpy/p/11267949.html
+https://blog.csdn.net/llziseweiqiu/article/details/51416285
+https://blog.csdn.net/weixin_42864905/article/details/105372805
+Linux基础之/bin、 /sbin、/ usr/bin,、/usr/sbin的用处：
+https://blog.csdn.net/weixin_33774615/article/details/89779814
+cupsd的关闭：
+https://blog.51cto.com/holy2010/343888
+
+df -h
+du -sh *
+
+https://blog.csdn.net/pistolove/article/details/43159817
+
+https://github.com/clxering/Effective-Java-3rd-edition-Chinese-English-bilingual
+https://github.com/sjsdfg/effective-java-3rd-chinese
