@@ -1,0 +1,31 @@
+一、首先检查jdk是否安装成功
+打开CMD，输入java –version，出现相应的信息则说明安装jdk
+查看是否配置了JAVA_HOME
+打开CMD，输入set java_home
+如果没配置JAVA_HOME
+则打开环境变量进行配置（计算机=>右键=>属性=>高级系统设置=>高级=>环境变量=>系统变量）
+再看CLASSPATH是否配置，没有就配置上
+变量名CLASSPATH
+变量值.,%JAVA_HOME%\lib\tools.jar;%JAVA_HOME%\lib\dt.jar;
+二、下面进行tomcat的安装配置
+解压相应的tomcat包，放在你自己指定的路径，我这里用的tomcat8，解压后放到D:\program\java\apache-tomcat-8.0.37这个路径
+三、然后Tomcat环境的相应配置
+打开环境配置（计算机=>右键=>属性=>高级系统设置=>高级=>环境变量=>系统变量）
+在系统变量的Path下，其变量值的末尾加入tomcat安装目录的bin目录，
+我的是D:\program\java\apache-tomcat-8.0.37\bin
+注意看前面是否有（英文的分号;）没有就加上
+接下来配置CATALINA_HOME
+点新建，变量名未CATALINA_HOME，变量值为你的tomcat的安装路径
+我的是：D:\program\java\apache-tomcat-8.0.37
+然后打开安装的bin目录，双击startup.bat
+如果没启动成功，出现一个黑框一闪而过
+用记事本打开这两个文件分别都在@echo off后面加入
+SET JAVA_HOME=jdk安装路径
+SET CATALINA_HOME=Tomcat安装路径
+我的是：
+SET JAVA_HOME=D:\program\java\jdk1.8.0_25
+SET CATALINA_HOME=D:\program\java\apache-tomcat-8.0.37
+保存，然后双击双击startup.bat
+启动成功了
+打开浏览器，输入http://localhost:8080/
+出现控制台界面说明安装配置成功
